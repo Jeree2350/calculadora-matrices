@@ -1,0 +1,88 @@
+---
+import CalculatorIcon from '../icons/Calculator.astro';
+import SideMenuItem from './SideMenuItem.astro';
+
+/// Iconos
+
+import HomeIcon from '../icons/Home.astro';
+import SumaIcon from '../icons/Suma.astro';
+import RestaIcon from '../icons/Resta.astro';
+import MultiplicacionIcon from '../icons/Multiplicacion.astro';
+import DeterminanteIcon from '../icons/Determinante.astro';
+import TranspuestaIcon from '../icons/Transpuesta.astro';
+import InversaIcon from '../icons/Inversa.astro';
+import ConfigIcon from '../icons/Config.astro';
+
+import InfoIcon from '../icons/Info.astro';
+---
+<nav class="flex flex-col flex-1 gap-2">
+    <div class="bg-zinc-900 rounded-lg p-2">
+        <ul>
+            <SideMenuItem href="/">
+                <HomeIcon />
+                Inicio
+            </SideMenuItem>
+        </ul>
+
+        <ul>
+            <SideMenuItem href="/">
+                <SumaIcon />
+                Suma de Matrices
+            </SideMenuItem>
+        </ul>
+
+        <ul>
+            <SideMenuItem href="/">
+                <RestaIcon />
+                Resta de Matrices
+            </SideMenuItem>
+        </ul>
+
+        <ul>
+            <SideMenuItem href="/">
+                <MultiplicacionIcon />
+                Multiplicacion de Matrices
+            </SideMenuItem>
+        </ul>
+
+        <ul>
+            <SideMenuItem href="/">
+                <DeterminanteIcon />
+                Determinante
+            </SideMenuItem>
+        </ul>
+
+        <ul>
+            <SideMenuItem href="/">
+                <TranspuestaIcon />
+                Transpuesta
+            </SideMenuItem>
+        </ul>
+
+        <ul>
+            <SideMenuItem href="/">
+                <InversaIcon />
+                Inversa
+            </SideMenuItem>
+        </ul>
+    </div>
+
+    <div class="bg-zinc-900 rounded-lg p-2 flex-1">
+
+        <ul>
+            <SideMenuItem href="/">
+                <InfoIcon />
+                Acerca de
+            </SideMenuItem>
+        </ul>
+
+        <ul>
+            <SideMenuItem href="/">
+                <ConfigIcon />
+                Configuracion
+            </SideMenuItem>
+        </ul>
+    </div>
+
+    <CalculatorIcon></CalculatorIcon>
+</nav>

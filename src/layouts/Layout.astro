@@ -1,0 +1,91 @@
+---
+import '../styles/global.css';
+import AsideMenu from '../components/AsideMenu.astro';
+const { title} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>{title}</title>
+	</head>
+	<body>
+		<div id="app" class="relative h-screen p-2 gap-2">
+
+			<header class="[grid-area:header] rounded-lg min-h-[60px] bg-zinc-900">
+				HEADER
+			</header>
+
+
+
+			<aside class="[grid-area:aside] flex-col flex rounded-lg overflow-y-auto">
+				<AsideMenu></AsideMenu>
+			</aside>
+
+
+
+			<main class="[grid-area:main] rounded-lg bg-zinc-900 overflow-y-auto">
+				<slot />
+			</main>
+		</div>
+	</body>
+</html>
+
+<style>
+	#app {
+		display: grid;
+		grid-template-areas:
+			"header header"
+			"aside main";
+		grid-template-columns: 1fr 3fr;
+		grid-template-rows: auto 1fr;
+	}
+</style>
+
+<style is:global>
+	 html {
+        font-family: "CircularStd", system-ui, sans-serif;
+        background: #010101;
+        color: white;
+      }
+
+	@font-face {
+        font-family: "CircularStd";
+        src: url("/fonts/CircularStd-Medium.woff2") format("woff2");
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "CircularStd";
+        src: url("/fonts/CircularStd-Book.woff2") format("woff2");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "CircularStd";
+        src: url("/fonts/CircularStd-Light.woff2") format("woff2");
+        font-weight: 300;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "CircularStd";
+        src: url("/fonts/CircularStd-Bold.woff2") format("woff2");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      @font-face {
+        font-family: "CircularStd";
+        src: url("/fonts/CircularStd-Black.woff2") format("woff2");
+        font-weight: 900;
+        font-style: normal;
+        font-display: swap;
+      }
+</style>
