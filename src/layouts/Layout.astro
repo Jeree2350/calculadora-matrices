@@ -5,7 +5,7 @@ const { title} = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<title>{title}</title>
 	</head>
@@ -13,12 +13,11 @@ const { title} = Astro.props;
 		<div id="app" class="relative h-screen p-2 gap-2">
 
 			<header class="[grid-area:header] rounded-lg min-h-[60px] bg-zinc-900">
-				HEADER
 			</header>
 
 
 
-			<aside class="[grid-area:aside] flex-col flex rounded-lg overflow-y-auto">
+			<aside class="[grid-area:aside] flex-col flex rounded-lg overflow-hidden">
 				<AsideMenu></AsideMenu>
 			</aside>
 

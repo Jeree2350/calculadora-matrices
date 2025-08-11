@@ -1,5 +1,4 @@
 ---
-import CalculatorIcon from '../icons/Calculator.astro';
 import SideMenuItem from './SideMenuItem.astro';
 
 /// Iconos
@@ -25,64 +24,61 @@ import InfoIcon from '../icons/Info.astro';
         </ul>
 
         <ul>
-            <SideMenuItem href="/">
+            <SideMenuItem href="/suma">
                 <SumaIcon />
                 Suma de Matrices
             </SideMenuItem>
         </ul>
 
         <ul>
-            <SideMenuItem href="/">
+            <SideMenuItem href="/resta">
                 <RestaIcon />
                 Resta de Matrices
             </SideMenuItem>
         </ul>
 
         <ul>
-            <SideMenuItem href="/">
+            <SideMenuItem href="/multiplicacion">
                 <MultiplicacionIcon />
                 Multiplicacion de Matrices
             </SideMenuItem>
         </ul>
 
         <ul>
-            <SideMenuItem href="/">
+            <SideMenuItem href="/determinante">
                 <DeterminanteIcon />
                 Determinante
             </SideMenuItem>
         </ul>
 
         <ul>
-            <SideMenuItem href="/">
+            <SideMenuItem href="/transpuesta">
                 <TranspuestaIcon />
                 Transpuesta
             </SideMenuItem>
         </ul>
 
         <ul>
-            <SideMenuItem href="/">
+            <SideMenuItem href="/inversa">
                 <InversaIcon />
                 Inversa
             </SideMenuItem>
         </ul>
     </div>
 
-    <div class="bg-zinc-900 rounded-lg p-2 flex-1">
-
+    <div class="bg-zinc-900 rounded-lg p-2">
         <ul>
-            <SideMenuItem href="/">
+            <SideMenuItem href="/acercaDe">
                 <InfoIcon />
                 Acerca de
             </SideMenuItem>
         </ul>
 
         <ul>
-            <SideMenuItem href="/">
+            <SideMenuItem href="/configuracion">
                 <ConfigIcon />
                 Configuracion
             </SideMenuItem>
         </ul>
     </div>
-
-    <CalculatorIcon></CalculatorIcon>
 </nav>
