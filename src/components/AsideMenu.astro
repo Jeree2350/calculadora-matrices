@@ -1,4 +1,8 @@
 ---
+const { currentPath } = Astro.props;
+
+import { ClientRouter }  from 'astro:transitions';
+
 import SideMenuItem from './SideMenuItem.astro';
 
 /// Iconos
@@ -17,49 +21,49 @@ import InfoIcon from '../icons/Info.astro';
 <nav class="flex flex-col flex-1 gap-2">
     <div class="bg-zinc-900 rounded-lg p-2">
         <ul>
-            <SideMenuItem href="/">
+            <SideMenuItem href="/" active={currentPath === '/'}>
                 <HomeIcon />
                 Inicio
             </SideMenuItem>
         </ul>
 
         <ul>
-            <SideMenuItem href="/suma">
+            <SideMenuItem href="/suma" active={currentPath === '/suma'}>
                 <SumaIcon />
                 Suma de Matrices
             </SideMenuItem>
         </ul>
 
         <ul>
-            <SideMenuItem href="/resta">
+            <SideMenuItem href="/resta" active={currentPath === '/resta'}>
                 <RestaIcon />
                 Resta de Matrices
             </SideMenuItem>
         </ul>
 
         <ul>
-            <SideMenuItem href="/multiplicacion">
+            <SideMenuItem href="/multiplicacion" active={currentPath === '/multiplicacion'}>
                 <MultiplicacionIcon />
                 Multiplicacion de Matrices
             </SideMenuItem>
         </ul>
 
         <ul>
-            <SideMenuItem href="/determinante">
+            <SideMenuItem href="/determinante" active={currentPath === '/determinante'}>
                 <DeterminanteIcon />
                 Determinante
             </SideMenuItem>
         </ul>
 
         <ul>
-            <SideMenuItem href="/transpuesta">
+            <SideMenuItem href="/transpuesta" active={currentPath === '/transpuesta'}>
                 <TranspuestaIcon />
                 Transpuesta
             </SideMenuItem>
         </ul>
 
         <ul>
-            <SideMenuItem href="/inversa">
+            <SideMenuItem href="/inversa" active={currentPath === '/inversa'}>
                 <InversaIcon />
                 Inversa
             </SideMenuItem>
@@ -68,17 +72,19 @@ import InfoIcon from '../icons/Info.astro';
 
     <div class="bg-zinc-900 rounded-lg p-2">
         <ul>
-            <SideMenuItem href="/acercaDe">
+            <SideMenuItem href="/acercaDe" active={currentPath === '/acercaDe'}>
                 <InfoIcon />
                 Acerca de
             </SideMenuItem>
         </ul>
 
         <ul>
-            <SideMenuItem href="/configuracion">
+            <SideMenuItem href="/configuracion" active={currentPath === '/configuracion'}>
                 <ConfigIcon />
                 Configuracion
             </SideMenuItem>
         </ul>
     </div>
 </nav>
+
+<ClientRouter />

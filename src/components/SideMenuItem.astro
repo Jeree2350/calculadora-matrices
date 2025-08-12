@@ -1,17 +1,33 @@
 ---
 interface Props {
     href?: string;
+    active?: boolean;
 }
 
-const { href } = Astro.props;
+const { href, active } = Astro.props;
 ---
 
 
 <li>
     <a 
-        class="flex gap-4 text-zinc-400 hover:text-zinc-100 items-center py-3 px-5 font-medium transition
-        duration-300"
+        class={`flex gap-4 text-zinc-400 transRight items-center py-3 px-5 font-medium transition duration-300${active ? ' active text-zinc-100' : ''}`}
         href={href}>
         <slot />
     </a>
 </li>
+
+<style>
+
+    .transRight {
+        transition: .5s, color .10s;
+            -webkit-transition: .5s, color .10s;
+            -moz-transition: .5s, color .10s;
+    }
+
+    .transRight:hover {
+        transform: translateX(20px);
+            -webkit-transform: translateX(20px) ;
+            -moz-transform: translateX(20px) ;
+    }
+
+</style>
