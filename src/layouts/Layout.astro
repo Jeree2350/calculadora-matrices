@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import AsideMenu from '../components/AsideMenu.astro';
+import HeaderMenu from '../components/HeaderMenu.astro';
 const { title} = Astro.props;
 const currentPath = Astro.url.pathname;
 ---
@@ -14,6 +15,7 @@ const currentPath = Astro.url.pathname;
 		<div id="app" class="relative h-screen p-2 gap-2">
 
 			<header class="[grid-area:header] rounded-lg min-h-[60px] bg-zinc-900">
+        <HeaderMenu></HeaderMenu>
 			</header>
 
 

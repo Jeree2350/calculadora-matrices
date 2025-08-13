@@ -1,0 +1,26 @@
+---
+import CalculatorIcon from '../icons/Calculator.astro';
+---
+<div>
+  <div class="flex items-center justify-between p-4 bg-zinc-900 rounded-lg">
+    <div class="flex items-center gap-2">
+      <CalculatorIcon class="w-8 h-8" />
+      <a href="/">
+        <span class="text-white text-lg font-semibold">Calculadora de Matrices</span>
+      </a>
+    </div>
+
+    <div class="flex items-center">
+      <input
+        type="text"
+        placeholder="Buscar operaciones..."
+        class="w-64 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <button
+        class="ml-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:transform hover:scale-105 transition-transform duration-200"
+      >
+        Buscar
+      </button>
+    </div>
+  </div>
+</div>
