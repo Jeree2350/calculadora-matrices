@@ -10,34 +10,23 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="Calculadora de Matrices">
     <div class="text-center mt-10">
         <h1 class="text-3xl font-bold text-center text-white">Calculadora de Matrices</h1>
-        <p class="text-center text-gray-400">Selecciona una operacion en el menu lateral.</p>
+        <p class="text-center text-gray-400 mt-2">Bienvenido a la aplicación. Selecciona una operación en el menú lateral para comenzar.</p>
     </div>
 
-    <div id="matrix-gen" class="mt-8 flex justify-center">
-        <div class="flex flex-col items-center">
-            <h2 class="text-white mb-4">
-                Indica la dimension de las matrices que quieres generar y operacion:
-            </h2>
+    <section class="mt-12 flex flex-col items-center">
+      <div class="bg-gray-800 p-8 rounded-lg shadow-xl w-full max-w-xl">
+        <h2 class="text-xl font-semibold text-white mb-4">¿Cómo funciona?</h2>
+        <ul class="list-disc list-inside text-gray-300 mb-4">
+          <li>Selecciona una operación: suma, resta, multiplicación, determinante, inversa, transpuesta.</li>
+          <li>Indica las dimensiones y los valores de las matrices.</li>
+          <li>Recibe el resultado calculado por nuestro backend en Python.</li>
+        </ul>
+        <p class="text-gray-400">¿Listo para empezar? Elige una operación en el menú lateral.</p>
+      </div>
 
-            <div class="flex gap-4">
-                <input
-                    type="number"
-                    min="1"
-                    placeholder="Filas"
-                    class="p-2 border border-gray-300 rounded-lg"
-                />
-                <input
-                    type="number"
-                    min="1"
-                    placeholder="Columnas"
-                    class="p-2 border border-gray-300 rounded-lg"
-                />
-                <button
-                    class="px-4 py-2 bg-green-600 text-white rounded-lg hover:transform hover:scale-105 transition-transform duration-200"
-                >
-                    Generar Matrices
-                </button>
-    </div>
+    </section>
+
+    
 </Layout>
 
 <style></style>

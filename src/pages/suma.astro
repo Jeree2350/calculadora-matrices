@@ -1,24 +1,225 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
-<meta charset="utf-8">
 
 <Layout title="Suma de Matrices">
-    <div class="text-center mt-10">
-        <h1 class="text-3xl font-bold text-center text-white">Suma de Matrices</h1>
-        <p class="text-center text-gray-400">Realiza la suma de dos matrices.</p>
-    </div>
+  <div class="text-center mt-10">
+    <h1 class="text-4xl font-bold text-white mb-2">Suma de Matrices</h1>
+    <p class="text-gray-400 mb-6 text-lg">Ingresa las dimensiones y los valores de dos matrices para sumarlas.</p>
+  </div>
 
-    <div id="matrix-inputs" class="mt-8 flex justify-center gap-4">
-        <div class="flex flex-col">
-            <label for="matrix1" class="text-white">Matriz 1:</label>
-            <textarea id="matrix1" rows="5" class="p-2 border border-gray-300 rounded-lg"></textarea>
+  <section class="flex flex-col items-center">
+    <div class="bg-[#21293a] p-8 rounded-xl shadow-2xl w-full max-w-3xl">
+      <form id="sumarForm" autocomplete="off">
+        <div class="flex items-center gap-6 mb-8 justify-center">
+          <div class="flex flex-col items-start">
+            <label for="filas" class="text-gray-200 mb-1 font-medium">Filas</label>
+            <input id="filas" type="number" min="1" class="input-base" required />
+          </div>
+          <div class="flex flex-col items-start">
+            <label for="columnas" class="text-gray-200 mb-1 font-medium">Columnas</label>
+            <input id="columnas" type="number" min="1" class="input-base" required />
+          </div>
+          <button type="button" id="generarBtn" class="btn-base bg-green-600 hover:bg-green-700">Generar matrices</button>
         </div>
-        <div class="flex flex-col">
-            <label for="matrix2" class="text-white">Matriz 2:</label>
-            <textarea id="matrix2" rows="5" class="p-2 border border-gray-300 rounded-lg"></textarea>
-        </div>
+
+        <div id="matricesInputs" class="flex gap-10 justify-center mb-8"></div>
+
+        <button type="submit" class="btn-base bg-blue-600 hover:bg-blue-700 w-full">Calcular suma</button>
+        <div id="resultado" class="mt-6 text-white text-center"></div>
+      </form>
     </div>
+  </section>
 </Layout>
 
-<style></style>
+<style>
+.input-base {
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1.5px solid #3a4256;
+  background: #131721;
+  color: #fff;
+  font-size: 1.1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+.input-base:focus {
+  border-color: #00e676;
+}
+
+.btn-base {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  transition: background 0.2s, transform 0.2s;
+  border: none;
+  cursor: pointer;
+}
+.btn-base:active {
+  transform: scale(0.97);
+}
+
+.matriz-card {
+  background: #181e2b;
+  border-radius: 1rem;
+  padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+  box-shadow: 0 4px 16px rgba(14,22,33,.17);
+  min-width: 170px;
+  max-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.matriz-label {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 0.6rem;
+}
+.matriz-a .matriz-label { color: #3ea5ff; }
+.matriz-b .matriz-label { color: #1fea7b; }
+
+.matriz-table {
+  border-collapse: separate;
+  border-spacing: 8px;
+  background: none;
+}
+.matriz-table td {
+  border-radius: 0.4rem;
+  background: #232b3d;
+  border: 1.5px solid #2d3748;
+  width: 3rem;
+  height: 2.6rem;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0;
+}
+.matriz-table input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 1.1rem;
+  text-align: center;
+  outline: none;
+}
+.matriz-table input:focus {
+  background: #29324a;
+}
+
+@media (max-width: 900px) {
+  .flex.gap-10 { gap: 2rem !important; }
+  .matriz-card { padding: 1rem; }
+  .matriz-label { font-size: 1.1rem; }
+}
+@media (max-width: 600px) {
+  .flex.gap-10 { flex-direction: column !important; gap: 1rem !important; }
+  .matriz-card { min-width: unset; }
+}
+</style>
+
+<script is:inline>
+let filas = 0;
+let columnas = 0;
+
+window.addEventListener('DOMContentLoaded', () => {
+  const generarBtn = document.getElementById('generarBtn');
+  const matricesInputs = document.getElementById('matricesInputs');
+  const sumarForm = document.getElementById('sumarForm');
+  const resultadoDiv = document.getElementById('resultado');
+
+  generarBtn?.addEventListener('click', () => {
+    filas = Number(document.getElementById('filas').value);
+    columnas = Number(document.getElementById('columnas').value);
+
+    if (!filas || !columnas) {
+      matricesInputs.innerHTML = '<p class="text-red-400">Ingresa dimensiones válidas.</p>';
+      return;
+    }
+
+    matricesInputs.innerHTML = generarInputsMatrices(filas, columnas);
+    resultadoDiv.textContent = '';
+  });
+
+  sumarForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!filas || !columnas) {
+      resultadoDiv.textContent = 'Primero genera las matrices.';
+      return;
+    }
+
+    const matrizA = [];
+    const matrizB = [];
+    for (let i = 0; i < filas; i++) {
+      const filaA = [];
+      const filaB = [];
+      for (let j = 0; j < columnas; j++) {
+        const valA = Number(document.getElementById(`a-${i}-${j}`).value) || 0;
+        const valB = Number(document.getElementById(`b-${i}-${j}`).value) || 0;
+        filaA.push(valA);
+        filaB.push(valB);
+      }
+      matrizA.push(filaA);
+      matrizB.push(filaB);
+    }
+
+    resultadoDiv.textContent = 'Calculando...';
+
+    try {
+      const res = await fetch('http://localhost:8000/suma', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ matrizA, matrizB })
+      });
+      const data = await res.json();
+      resultadoDiv.innerHTML = renderResultado(data.resultado);
+    } catch (err) {
+      resultadoDiv.textContent = 'Error al conectar con el backend.';
+    }
+  });
+
+  function generarInputsMatrices(filas, columnas) {
+    let html = '<div class="flex gap-10 justify-center">';
+    // Matriz A
+    html += '<div class="matriz-card matriz-a"><div class="matriz-label">A =</div><table class="matriz-table">';
+    for (let i = 0; i < filas; i++) {
+      html += '<tr>';
+      for (let j = 0; j < columnas; j++) {
+        html += `<td><input id="a-${i}-${j}" type="number" required /></td>`;
+      }
+      html += '</tr>';
+    }
+    html += '</table></div>';
+    // Matriz B
+    html += '<div class="matriz-card matriz-b"><div class="matriz-label">B =</div><table class="matriz-table">';
+    for (let i = 0; i < filas; i++) {
+      html += '<tr>';
+      for (let j = 0; j < columnas; j++) {
+        html += `<td><input id="b-${i}-${j}" type="number" required /></td>`;
+      }
+      html += '</tr>';
+    }
+    html += '</table></div>';
+    html += '</div>';
+    return html;
+  }
+
+  function renderResultado(resultado) {
+    if (!Array.isArray(resultado)) return `<span class="text-red-400 text-lg">${resultado}</span>`;
+    let html = '<h4 class="text-white mb-2 text-xl">Resultado:</h4>';
+    html += '<table class="matriz-table" style="margin:0 auto;">';
+    resultado.forEach(row => {
+      html += '<tr>';
+      row.forEach(val => {
+        html += `<td class="font-bold">${val}</td>`;
+      });
+      html += '</tr>';
+    });
+    html += '</table>';
+    return html;
+  }
+});
+</script>
