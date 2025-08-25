@@ -9,5 +9,136 @@ import Layout from '../layouts/Layout.astro';
         <h1 class="text-3xl font-bold text-center text-white">Multiplicación de Matrices</h1>
         <p class="text-center text-gray-400">Realiza la multiplicacion de dos matrices.</p>
     </div>
+
+    <section class="mt-8 flex flex-col items-center">
+        <form id="multiplicarForm" class="bg-gray-800 p-8 rounded-lg shadow-xl w-full max-w-2xl">
+            <div class="flex gap-4 mb-6">
+                <div>
+                    <label class="text-white">Filas A</label>
+                    <input id="filasA" type="number" min="1" class="p-2 border border-gray-300 rounded-lg w-20" required />
+                </div>
+                <div>
+                    <label class="text-white">Columnas A / Filas B</label>
+                    <input id="columnasA" type="number" min="1" class="p-2 border border-gray-300 rounded-lg w-20" required />
+                </div>
+                <div>
+                    <label class="text-white">Columnas B</label>
+                    <input id="columnasB" type="number" min="1" class="p-2 border border-gray-300 rounded-lg w-20" required />
+                </div>
+                <button type="button" id="generarBtn" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:scale-105 transition-transform duration-200">
+                    Generar matrices
+                </button>
+            </div>
+            <div id="matricesInputs" class="mb-6"></div>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg w-full mt-4">Calcular multiplicación</button>
+            <div id="resultado" class="mt-6 text-white"></div>
+        </form>
+    </section>
 </Layout>
 <style></style>
+<script is:inline>
+document.addEventListener('DOMContentLoaded', () => {
+    const generarBtn = document.getElementById('generarBtn');
+    const matricesInputs = document.getElementById('matricesInputs');
+    const multiplicarForm = document.getElementById('multiplicarForm');
+    const resultadoDiv = document.getElementById('resultado');
+
+    let filasA = 0;
+    let columnasA = 0;
+    let columnasB = 0;
+
+    generarBtn?.addEventListener('click', () => {
+        filasA = Number(document.getElementById('filasA').value);
+        columnasA = Number(document.getElementById('columnasA').value);
+        columnasB = Number(document.getElementById('columnasB').value);
+
+        if (!filasA || !columnasA || !columnasB) {
+            matricesInputs.innerHTML = '<p class="text-red-400">Ingresa dimensiones válidas.</p>';
+            return;
+        }
+
+        matricesInputs.innerHTML = generarInputsMatrices(filasA, columnasA, columnasB);
+        resultadoDiv.textContent = '';
+    });
+
+    multiplicarForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!filasA || !columnasA || !columnasB) {
+            resultadoDiv.textContent = 'Primero genera las matrices.';
+            return;
+        }
+
+        const matrizA = [];
+        const matrizB = [];
+        for (let i = 0; i < filasA; i++) {
+            const filaA = [];
+            for (let j = 0; j < columnasA; j++) {
+                filaA.push(Number(document.getElementById(`a-${i}-${j}`).value) || 0);
+            }
+            matrizA.push(filaA);
+        }
+        for (let i = 0; i < columnasA; i++) {
+            const filaB = [];
+            for (let j = 0; j < columnasB; j++) {
+                filaB.push(Number(document.getElementById(`b-${i}-${j}`).value) || 0);
+            }
+            matrizB.push(filaB);
+        }
+
+        resultadoDiv.textContent = 'Calculando...';
+
+        try {
+            const res = await fetch('http://localhost:8000/multiplicacion', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ matrizA, matrizB })
+            });
+            const data = await res.json();
+            resultadoDiv.innerHTML = renderResultado(data.resultado);
+        } catch (err) {
+            resultadoDiv.textContent = 'Error al conectar con el backend.';
+        }
+    });
+
+    function generarInputsMatrices(filasA, columnasA, columnasB) {
+        let html = '<div class="flex gap-8">';
+        html += '<div><h3 class="text-blue-400 mb-2">Matriz A</h3>';
+        html += '<table>';
+        for (let i = 0; i < filasA; i++) {
+            html += '<tr>';
+            for (let j = 0; j < columnasA; j++) {
+                html += `<td><input id="a-${i}-${j}" type="number" class="w-16 p-1 rounded" required /></td>`;
+            }
+            html += '</tr>';
+        }
+        html += '</table></div>';
+
+        html += '<div><h3 class="text-green-400 mb-2">Matriz B</h3>';
+        html += '<table>';
+        for (let i = 0; i < columnasA; i++) {
+            html += '<tr>';
+            for (let j = 0; j < columnasB; j++) {
+                html += `<td><input id="b-${i}-${j}" type="number" class="w-16 p-1 rounded" required /></td>`;
+            }
+            html += '</tr>';
+        }
+        html += '</table></div>';
+        html += '</div>';
+        return html;
+    }
+
+    function renderResultado(resultado) {
+        if (!Array.isArray(resultado)) return `<span class="text-red-400">${resultado}</span>`;
+        let html = '<h4 class="text-white mb-2">Resultado:</h4><table>';
+        resultado.forEach(row => {
+            html += '<tr>';
+            row.forEach(val => {
+                html += `<td class="px-3 py-1 border border-gray-500">${val}</td>`;
+            });
+            html += '</tr>';
+        });
+        html += '</table>';
+        return html;
+    }
+});
+</script>
